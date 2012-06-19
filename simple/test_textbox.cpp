@@ -45,47 +45,17 @@ int main(int argc, char **argv)
         top->setDimension(fcn::Rectangle(0, 0, 800, 600));
         top->setOpaque(false);
         gui->setTop(top);
-    
-        fcn::VBox *testVBox = new fcn::VBox(new fcn::FixedSizeConstraint(fcn::Size(0, 0), fcn::Size(400, 400)));
-        fcn::HBox *testHBox = new fcn::HBox(new fcn::FixedSizeConstraint(fcn::Size(0, 0), fcn::Size(400, 100)));
         
-        fcn::Button *btn;
-
-        for(int i = 0; i < 2; ++i)
-        {
-            std::stringstream s;
-            s << "Button " << i;
-
-            btn = new fcn::Button(s.str());
-            btn->adjustSize();
-            testHBox->add(btn);
-        }
-
-        testVBox->add(testHBox);
+        fcn::TextBox *txtBox = new fcn::TextBox;
+        txtBox->setDimension(fcn::Rectangle(100, 50, 200, 200));
         
-        top->add(testVBox);
-    
-
-        fcn::Label *lbl;
-        for(int i = 0; i < 5; ++i)
-        {
-            std::stringstream s;
-            s << "Label " << i;
-
-            lbl = new fcn::Label(s.str());
-            lbl->adjustSize();
-            testVBox->add(lbl);
-        }
-        
-        btn = new fcn::Button("Another Button");
-        btn->adjustSize();
-        testVBox->add(btn);
+        top->add(txtBox);
         
         bool running = true;
         SDL_Event evt;
         while(running)
         {
-            glClear(GL_COLOR_BUFFER_BIT);
+            SDL_FillRect(screen, NULL, 0);
 
             while(SDL_PollEvent(&evt))
             {
@@ -104,7 +74,7 @@ int main(int argc, char **argv)
     }
     catch(const fcn::Exception& exc)
     {
-        std::cerr << exc.getMessage() << "\n";
+        std::cerr << exc.getMessage() << " " << exc.getLine() << "\n";
     }
     
     return 0;

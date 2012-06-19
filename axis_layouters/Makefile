@@ -1,5 +1,11 @@
+simple_hbox:	
+	g++ simple_hbox.cpp -I/usr/include/SDL -I/usr/local/include/fifechan -lSDL -lSDL_image -lfifechan -lfifechan_sdl -lfifechan_opengl -lGL  -o simple_hbox.out
+
+simple_vbox:	
+	g++ simple_vbox.cpp -I/usr/include/SDL -I/usr/local/include/fifechan -lSDL -lSDL_image -lfifechan -lfifechan_sdl -lfifechan_opengl -lGL  -o simple_vbox.out
+
 hbox_in_vbox:	
-	g++ hbox_in_vbox.cpp -I/usr/include/SDL -I/usr/local/include/fifechan -lSDL -lSDL_image -lfifechan -lfifechan_sdl -lfifechan_opengl -lGL  -o test_hbox_in_vbox.out
+	g++ hbox_in_vbox.cpp -I/usr/include/SDL -I/usr/local/include/fifechan -lSDL -lSDL_image -lfifechan -lfifechan_sdl -lfifechan_opengl -lGL  -o hbox_in_vbox.out
 
 remove_child:	
 	g++ remove_child.cpp -I/usr/include/SDL -I/usr/local/include/fifechan -lSDL -lSDL_image -lfifechan -lfifechan_sdl -lfifechan_opengl -lGL  -o remove_child.out

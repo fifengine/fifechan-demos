@@ -4,13 +4,46 @@
 #include <fifechan/opengl/openglsdlimageloader.hpp>
 #include <SDL/SDL.h>
 #include <sstream>
+#include <vector>
 
 /**
- * See how an hbox is arranged into a vbox.
+ * Simple VBox creating code.
  *
  * Test doesn't do any memory management in sake of
  * usability. (and my sanity :) )
  */
+
+class MyListModel : public fcn::ListModel
+{
+    std::vector<std::string> mOptions;
+    
+public:
+    
+    MyListModel()
+    {
+        mOptions.push_back("Option 1");
+        mOptions.push_back("Option 2");
+        mOptions.push_back("Option 3");
+        mOptions.push_back("Option 4");
+    }
+    
+    ~MyListModel()
+    {
+    }
+    
+    virtual int getNumberOfElements()
+    {
+        return mOptions.size();
+    }
+    
+    virtual std::string getElementAt(int i)
+    {
+        if(i >= mOptions.size())
+            return "";
+        
+        return mOptions[i];
+    }
+};
 
 int main(int argc, char **argv)
 {
@@ -47,39 +80,32 @@ int main(int argc, char **argv)
         gui->setTop(top);
     
         fcn::VBox *testVBox = new fcn::VBox(new fcn::FixedSizeConstraint(fcn::Size(0, 0), fcn::Size(400, 400)));
-        fcn::HBox *testHBox = new fcn::HBox(new fcn::FixedSizeConstraint(fcn::Size(0, 0), fcn::Size(400, 100)));
-        
-        fcn::Button *btn;
 
-        for(int i = 0; i < 2; ++i)
+        for(int i = 0; i < 3; ++i)
         {
             std::stringstream s;
             s << "Button " << i;
-
-            btn = new fcn::Button(s.str());
+            
+            fcn::Button* btn = new fcn::Button(s.str());
             btn->adjustSize();
-            testHBox->add(btn);
+            testVBox->add(btn);
         }
-
-        testVBox->add(testHBox);
         
-        top->add(testVBox);
-    
-
-        fcn::Label *lbl;
-        for(int i = 0; i < 5; ++i)
+        fcn::DropDown *dropDown = new fcn::DropDown(new MyListModel());
+        dropDown->adjustHeight();
+        testVBox->add(dropDown);
+        
+        for(int i = 3; i < 6; ++i)
         {
             std::stringstream s;
-            s << "Label " << i;
-
-            lbl = new fcn::Label(s.str());
-            lbl->adjustSize();
-            testVBox->add(lbl);
+            s << "Button " << i;
+            
+            fcn::Button* btn = new fcn::Button(s.str());
+            btn->adjustSize();
+            testVBox->add(btn);
         }
         
-        btn = new fcn::Button("Another Button");
-        btn->adjustSize();
-        testVBox->add(btn);
+        top->add(testVBox);
         
         bool running = true;
         SDL_Event evt;
@@ -92,6 +118,13 @@ int main(int argc, char **argv)
                 if(evt.type == SDL_QUIT)
                 {
                     running = false;
+                }
+                else if(evt.type == SDL_KEYDOWN)
+                {
+                    if(evt.key.keysym.sym == SDLK_F1)
+                    {
+                        testVBox->relayout();
+                    }
                 }
                 
                 input->pushInput(evt);

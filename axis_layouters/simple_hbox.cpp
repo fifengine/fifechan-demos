@@ -6,7 +6,7 @@
 #include <sstream>
 
 /**
- * See how an hbox is arranged into a vbox.
+ * Simple hbox creating code.
  *
  * Test doesn't do any memory management in sake of
  * usability. (and my sanity :) )
@@ -46,40 +46,31 @@ int main(int argc, char **argv)
         top->setOpaque(false);
         gui->setTop(top);
     
-        fcn::VBox *testVBox = new fcn::VBox(new fcn::FixedSizeConstraint(fcn::Size(0, 0), fcn::Size(400, 400)));
         fcn::HBox *testHBox = new fcn::HBox(new fcn::FixedSizeConstraint(fcn::Size(0, 0), fcn::Size(400, 100)));
-        
-        fcn::Button *btn;
 
-        for(int i = 0; i < 2; ++i)
-        {
-            std::stringstream s;
-            s << "Button " << i;
-
-            btn = new fcn::Button(s.str());
-            btn->adjustSize();
-            testHBox->add(btn);
-        }
-
-        testVBox->add(testHBox);
-        
-        top->add(testVBox);
-    
-
-        fcn::Label *lbl;
-        for(int i = 0; i < 5; ++i)
-        {
-            std::stringstream s;
-            s << "Label " << i;
-
-            lbl = new fcn::Label(s.str());
-            lbl->adjustSize();
-            testVBox->add(lbl);
-        }
-        
-        btn = new fcn::Button("Another Button");
+        fcn::Button* btn = new fcn::Button("Button 1");
         btn->adjustSize();
-        testVBox->add(btn);
+        testHBox->add(btn);
+        
+        testHBox->add(new fcn::Spacer(new fcn::FixedSizeConstraint(fcn::Size(5, 0))));
+        
+        fcn::Label* lbl = new fcn::Label("Label");
+        lbl->adjustSize();
+        testHBox->add(lbl);
+        
+        testHBox->add(new fcn::Spacer(new fcn::FixedSizeConstraint(fcn::Size(5, 0))));
+        
+        btn = new fcn::Button("Button 2");
+        btn->adjustSize();
+        testHBox->add(btn);
+        
+        testHBox->add(new fcn::Spacer(new fcn::FixedSizeConstraint(fcn::Size(5, 0))));
+        
+        fcn::TextBox* txtBox = new fcn::TextBox;
+        txtBox->setSizeConstraint(new fcn::FixedSizeConstraint(fcn::Size(100, 20), fcn::Size(400, 100)));
+        testHBox->add(txtBox);
+        
+        top->add(testHBox);
         
         bool running = true;
         SDL_Event evt;
