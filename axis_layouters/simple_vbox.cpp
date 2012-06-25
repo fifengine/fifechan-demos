@@ -56,6 +56,8 @@ int main(int argc, char **argv)
     fcn::Container* top;
     
     SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_EnableUNICODE(1);
+    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);    
     
     screen = SDL_SetVideoMode(800, 600, 32, SDL_OPENGL);
    
