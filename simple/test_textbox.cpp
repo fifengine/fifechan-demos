@@ -2,7 +2,7 @@
 #include <fifechan/sdl/sdlinput.hpp>
 #include <fifechan/opengl/openglgraphics.hpp>
 #include <fifechan/opengl/openglsdlimageloader.hpp>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 #include <sstream>
 
 /**
@@ -14,7 +14,9 @@
 
 int main(int argc, char **argv)
 {
-    SDL_Surface *screen = NULL;
+    SDL_Window *window = NULL;
+    SDL_Renderer* renderer = NULL;
+    SDL_GLContext glcontext = NULL;
     fcn::SDLInput* input;
     fcn::OpenGLGraphics* graphics;
     fcn::OpenGLSDLImageLoader* imageLoader;
@@ -23,10 +25,11 @@ int main(int argc, char **argv)
     fcn::Container* top;
     
     SDL_Init(SDL_INIT_EVERYTHING);
-    SDL_EnableUNICODE(1);
-    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);    
-    
-    screen = SDL_SetVideoMode(800, 600, 32, SDL_OPENGL);
+    window = SDL_CreateWindow("HBox arranged within VBox", 0, 0, 800, 600, SDL_WINDOW_OPENGL);
+    glcontext = SDL_GL_CreateContext(window);
+    renderer = SDL_CreateRenderer(window, -1, 0);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
    
     try
     {
@@ -57,7 +60,7 @@ int main(int argc, char **argv)
         SDL_Event evt;
         while(running)
         {
-            SDL_FillRect(screen, NULL, 0);
+            SDL_RenderClear(renderer);
 
             while(SDL_PollEvent(&evt))
             {
@@ -71,7 +74,7 @@ int main(int argc, char **argv)
             
             gui->logic();
             gui->draw();
-            SDL_GL_SwapBuffers();
+            SDL_GL_SwapWindow(window);
         }
     }
     catch(const fcn::Exception& exc)
