@@ -16,7 +16,6 @@ int main(int argc, char **argv)
 {
     SDL_Window *window = NULL;
     SDL_Renderer* renderer = NULL;
-    SDL_GLContext glcontext = NULL;
     fcn::SDLInput* input;
     fcn::OpenGLGraphics* graphics;
     fcn::OpenGLSDLImageLoader* imageLoader;
@@ -26,7 +25,6 @@ int main(int argc, char **argv)
     
     SDL_Init(SDL_INIT_EVERYTHING);
     window = SDL_CreateWindow("HBox arranged within VBox", 0, 0, 800, 600, SDL_WINDOW_OPENGL);
-    glcontext = SDL_GL_CreateContext(window);
     renderer = SDL_CreateRenderer(window, -1, 0);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
